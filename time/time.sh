@@ -5,7 +5,7 @@
 # Author					: iaiting
 # Generate Date		: 2018-06-25
 # Email						: iaiting@aliyun.com
-# Description			: 日志相关的shell脚本库函数
+# Description			: 时间相关的shell脚本库函数
 #
 ################################################################################
 
@@ -13,93 +13,94 @@ if [ `echo ${BASH_SOURCE[0]} | grep -c "/"` -gt 0 ]; then
     cd ${BASH_SOURCE[0]%/*}
 fi
 
-if [ "X${D_LOG_SH_}" != "X" ]; then
+if [ "X${D_TIME_SH_}" != "X" ]; then
     return
 fi
 
-export D_LOG_SH_="log.sh"
+export D_TIME_SH_="time.sh"
 
-. ../time/time.sh
 
 ################################################################################
 #
-# 函数名					: log_info
-# 函数描述				: 打印 info 类型的日志
-# 入参						: log_info “msg”
+# 函数名					: get_ymdhms
+# 函数描述				: 获取系统中当前的 年-月-日 时-分-秒
+# 入参						: nil
+# 返回值					: 2018-06-25 00:00:00
 #
 ################################################################################
 
-function log_info() {
+function get_ymdhms() {
 
-    typeset msg=$1
+    typeset rv=`date +"%Y-%m-%d %H:%M:%S"`
 
-    typeset ymdhms=`get_ymdhms`
-
-    echo -e "\033[32m[INFO]\033[0m" "[${ymdhms}]" "$msg"
+    echo ${rv}
 
 }
 
 ################################################################################
 #
-# 函数名					: log_erro
-# 函数描述				: 打印 erro 类型的日志
-# 入参						: log_erro “msg”
+# 函数名					: get_ymd
+# 函数描述				: 获取系统中当前的 年-月-日
+# 入参						: nil
+# 返回值					: 2018-06-25
 #
 ################################################################################
 
-function log_erro() {
+function get_ymd() {
 
-    typeset msg=$1
+    typeset rv=`date +"%Y-%m-%d"`
 
-    typeset ymdhms=`get_ymdhms`
-
-    echo -e "\033[31m[ERRO]\033[0m" "[${ymdhms}]" "$msg"
+    echo ${rv}
 
 }
 
 ################################################################################
 #
-# 函数名					: log_warn
-# 函数描述				: 打印 warn 类型的日志
-# 入参						: log_warn “msg”
+# 函数名					: get_ymd
+# 函数描述				: 获取系统中当前的 时-分-秒
+# 入参						: nil
+# 返回值					: 01:01:01
 #
 ################################################################################
 
-function log_warn() {
+ function get_hms() {
 
-    typeset msg=$1
+    typeset rv=`date +"%H:%M:%S"`
 
-    typeset ymdhms=`get_ymdhms`
-
-    echo -e "\033[33m[WARN]\033[0m" "[${ymdhms}]" "$msg"
+    echo ${rv}
 
 }
 
+
 ################################################################################
 #
-# 函数名					: TEST_LOG
-# 函数描述				: log.sh脚本文件的测试函数接口
-# 入参						: TEST_LOG "test"
+# 函数名					: TEST_TIME
+# 函数描述				: time.sh脚本文件的测试函数接口
+# 入参						: TEST_TIME "test"
 # 返回值					: nil
 #
 ################################################################################
-function TEST_LOG() {
 
+function TEST_TIME() {
     if [ $# -ne 1 ]; then
         return
     fi
 
-    if [ "$1" != "logtest" ]; then
+    if [ "$1" != "timetest" ]; then
         return
     fi
 
-    log_info "INFO"
+    typeset ymdhms=`get_ymdhms`
+    echo "${ymdhms}"
 
-    log_warn "WARN"
+    typeset ymd=`get_ymd`
+    echo "${ymd}"
 
-    log_erro "ERRO"
+    typeset hms=`get_hms`
+    echo "${hms}"
 
 }
 
 ################################################################################
-TEST_LOG "$@"
+TEST_TIME "$@"
+
