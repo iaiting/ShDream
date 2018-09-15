@@ -9,13 +9,11 @@ fi
 ################################################################################
 
 function main() {
-
     log_info "This is info log..."
 
     log_warn "This is warn log..."
 
     log_erro "This is erro log..."
-
 }
 
 
